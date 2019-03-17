@@ -88,3 +88,84 @@ is_monotone <- function(x) {
   }
 }
 
+
+combin_count <- function(n, k, with_repretitions = FALSE) {
+  if(with_repretitions == TRUE){
+    return(factorial(n+k-1)/(factorial(k)*factorial(n-1)))
+  }else{
+    return(factorial(n)/(factorial(k)*factorial(n-k)))   
+  }
+}
+
+
+#работа с матрицами
+matr <-function(m, n) {
+  mat <- matrix(0, m, n)
+            mat[m, n] <-55
+  print(mat[n,m]) 
+  
+}  
+
+#работа с матрицамиc
+#Предположим, что у нас есть целочисленный вектор v и число n. Наша задача — найти позицию элемента в векторе, 
+#который ближе всего к числу n. При этом если таких элементов несколько, необходимо указать все позиции.
+#Напишите функцию, которая принимает на вход вектор и число и возвращает вектор индексов, отвечающих указанному условию. 
+#Индексы должны быть выстроены по возрастанию.
+#Пример. Пусть v <- c(5, 2, 7, 7, 7, 2, 0, 0) и n=1. Ответом будет вектор
+#2 6 7 8
+#Подсказки: 
+#"ближе всего" означает минимальную разницу между числами;
+#не забудьте про модуль!
+find_closest <-function(v, n) {
+  #print(v)
+  b<-abs(v-n)
+  #print(b)
+  m<-which(b == min(b))
+  #print(m)
+  return(sort(m))
+} 
+
+
+#нужно взять две матрицы и сложить их таким ор\бразом,  что верхний левый угло - это матрица m1, правый нижний - это m2, а остальные 
+# элементы - это некий элемент
+bind_diag<-function(m1,m2,fill){
+  #заполним матрицу элементом fill
+  m3<-matrix(fill,nrow = nrow(m1)+nrow(m2),ncol = ncol(m1)+ncol(m2))
+  m3[1:nrow(m1), 1:ncol(m1)]<-m1
+  m3[nrow(m1)+1:nrow(m2),ncol(m1)+1:ncol(m2)]<-m2
+  print(m3)
+}
+
+m1<-matrix(1:12,nrow = 3)
+m2<-matrix(10:15,ncol = 3)
+
+
+build_ziggurat <- function(n) {
+#создаем четвертинку матрицы
+ x<-matrix(1,n,n) 
+ c<-1:n
+ for(i in 0:(n-1)){
+   x[i+1,1:(n-i)]<-c[1:(n-i)]  
+   if(n-i+1 <= n){
+     x[i+1,(n-i+1):n]<- n-i
+   }
+ }
+ if(n<=1){
+   #print(x)
+   return(x)
+ }else{
+   #print(x)
+   #создаем итоговую матрицу- нижнюю половину
+   m1<-matrix(0,nrow = nrow(x),ncol = ncol(x)*2-1)
+   m1[1:nrow(x),1:ncol(x)]<-x
+   m1[1:nrow(x),(ncol(x)+1):ncol(m1)]<-x[1:nrow(x),(ncol(x)-1):1]
+   #print(m1)
+   #теперь верхнюю половину
+   m2<-matrix(0,nrow = nrow(m1)*2-1,ncol = ncol(m1))
+   m2[nrow(m1):nrow(m2),1:ncol(m2)]<-m1
+   m2[(nrow(m1)-1):1,1:nrow(m2)]<-m1[2:nrow(m1),1:ncol(m1)]
+   #print(m2)  
+   return(m2)
+ }
+ 
+}
