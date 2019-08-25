@@ -19,13 +19,21 @@ def vector_sum(vectors) :
         result = vector_add(result,vect)
     return result
 
-def vector_sum1(vectors):        
+def vector_sum1(vectors):  #через свертку списка      
     return reduce(vector_add,vectors)
     
 def scalar_mult(c,v):
     return[c*v_i for v_i in v]
     
+def dot(c,v): #Cкалароное произведение векторов - сумма покомпонентных произведений. 
+              #Это длина вектора,  которая получится если спроецировать вектор v на w
+    """v_1*c_1+v_n*c_n """
+    return  sum(c_i*v_i for c_i, v_i in zip(c,v))
     
+def  shape(A):#форма матрицы
+    num_row = len(A)
+    num_cols = len(A[0]) if A else 0  #число элементов в первой строке
+    return num_row,num_cols
     
 v = [1,3,9]
 w = [2,1,4]
@@ -36,3 +44,13 @@ l=[v,w,e]
 print(vector_sum(l))
 print(vector_sum1(l))
 print(scalar_mult(10,v))
+print(dot(w,v))
+
+#матрицы
+A = [[1,2,3],
+     [4,5,6]]
+B = [[1,2],
+     [3,4],
+     [5,6]]
+
+print(shape(B))
